@@ -1,0 +1,13 @@
+services:
+  - type: static
+    name: zion-birthday
+    env: static
+    branch: main
+    autoDeploy: true
+    buildCommand: npm run build
+    publishPath: birthday
+    envVars:
+      - key: WHATSAPP_NUMBER
+        value: 44743960764
+      - key: BIRTHDAY_DATE
+        value: 07/07
