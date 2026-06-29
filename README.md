@@ -49,13 +49,13 @@ git push -u origin main
 4. Set the **Build Command** to:
 
 ```bash
-npm run build
+node ./build-config.js
 ```
 
 5. Set the **Publish Directory** to:
 
 ```bash
-birthday
+./birthday
 ```
 
 6. Add the same environment variables on Render if you want to customize them:
@@ -71,8 +71,7 @@ Install Node.js if needed, then run:
 
 ```bash
 cd c:\Users\mis\Desktop\zion
-npm install
-npm run build
+node ./build-config.js
 ```
 
 Then open `birthday/index.html` in your browser or serve the `birthday/` folder with a static file server.
