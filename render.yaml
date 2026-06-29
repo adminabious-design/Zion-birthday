@@ -4,7 +4,7 @@ services:
     env: static
     branch: main
     autoDeploy: true
-    buildCommand: node /opt/render/project/src/build-config.js
+    buildCommand: node ./birthday/build-config.js
     publishPath: ./birthday
     envVars:
       - key: WHATSAPP_NUMBER
