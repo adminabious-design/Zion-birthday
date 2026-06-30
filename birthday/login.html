@@ -3,198 +3,80 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Mildred — Birthday Login</title>
-  <style>
-    :root{
-      --bg1:#0b1020;--bg2:#130a2a;
-      --stroke: rgba(255,255,255,.18);
-      --text: rgba(255,255,255,.92);
-      --muted: rgba(255,255,255,.70);
-      --pink:#ff5fd7;--gold:#ffd46a;--sky:#5ad7ff;
-      --shadow: 0 20px 60px rgba(0,0,0,.45);
-    }
-    *{box-sizing:border-box}
-    html,body{height:100%}
-    body{
-      margin:0;
-      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
-      color: var(--text);
-      background:
-        radial-gradient(1000px 500px at 10% 10%, rgba(90,215,255,.20), transparent 50%),
-        radial-gradient(900px 400px at 80% 20%, rgba(255,95,215,.18), transparent 55%),
-        radial-gradient(700px 500px at 30% 90%, rgba(255,212,106,.14), transparent 55%),
-        linear-gradient(180deg, var(--bg1), var(--bg2));
-      overflow-x:hidden;
-    }
-    .wrap{min-height:100vh;display:grid;place-items:center;padding:28px 16px;}
-    .card{
-      width:min(720px,100%);
-      background: linear-gradient(180deg, rgba(255,255,255,.10), rgba(255,255,255,.05));
-      border:1px solid var(--stroke);
-      border-radius:26px;
-      box-shadow: var(--shadow);
-      overflow:hidden;
-      position:relative;
-    }
-    .card::before{
-      content:"";position:absolute;inset:-2px;
-      background: conic-gradient(from 180deg,
-        rgba(255,95,215,.0), rgba(255,95,215,.55), rgba(90,215,255,.55), rgba(255,212,106,.55), rgba(255,95,215,.0));
-      opacity:.25;filter: blur(16px);z-index:0;
-    }
-    .inner{position:relative;z-index:1;padding:34px 20px;}
-    h1{margin:0;font-size:clamp(24px,4vw,34px);letter-spacing:.2px;}
-    p{margin:8px 0 0;color:var(--muted);line-height:1.6;}
-
-    .form{
-      margin-top:18px;
-      display:grid;
-      gap:12px;
-      align-content:start;
-    }
-    label{font-size:13px;color:rgba(255,255,255,.78);letter-spacing:.4px;text-transform:uppercase;}
-    input{
-      width:100%;
-      border-radius:16px;
-      border:1px solid rgba(255,255,255,.16);
-      background: rgba(255,255,255,.06);
-      padding:14px 14px;
-      outline:none;
-      color:var(--text);
-      font-size:16px;
-    }
-    input::placeholder{color:rgba(255,255,255,.45)}
-    .row{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
-    @media (max-width:560px){.row{grid-template-columns:1fr;}}
-    .actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:6px;}
-    button{
-      appearance:none;border:none;cursor:pointer;border-radius:14px;
-      padding:12px 14px;font-weight:760;letter-spacing:.2px;
-      transition: transform .15s ease, filter .15s ease;
-    }
-    .primary{
-      color: rgba(0,0,0,.85);
-      background: linear-gradient(90deg, var(--gold), #ffe9a6);
-      box-shadow: 0 14px 28px rgba(255,212,106,.18);
-    }
-    .ghost{
-      background: rgba(255,255,255,.07);
-      border:1px solid rgba(255,255,255,.16);
-      color: rgba(255,255,255,.90);
-      box-shadow:none;
-      font-weight:740;
-    }
-    button:active{transform: translateY(1px) scale(.99)}
-
-    .hint{margin-top:14px;font-size:12.5px;color:rgba(255,255,255,.62)}
-
-    .stars{
-      position:absolute;inset:0;pointer-events:none;z-index:0;opacity:.55;
-    }
-    .star{
-      position:absolute;width:10px;height:10px;
-      transform: rotate(45deg);
-      background: linear-gradient(90deg, var(--pink), var(--sky));
-      clip-path: polygon(50% 0%, 60% 35%, 100% 50%, 60% 65%, 50% 100%, 40% 65%, 0% 50%, 40% 35%);
-      filter: drop-shadow(0 0 10px rgba(90,215,255,.35));
-      animation: twinkle 2.8s ease-in-out infinite;
-    }
-    @keyframes twinkle{
-      0%,100%{opacity:.2;transform: translateY(0) rotate(45deg) scale(.9)}
-      50%{opacity:.95;transform: translateY(-10px) rotate(45deg) scale(1.05)}
-    }
-  </style>
+  <title>Mildred - Birthday Unlock</title>
+  <link rel="stylesheet" href="gift.css" />
 </head>
-<body>
-  <div class="wrap">
-    <section class="card">
-      <div class="stars" aria-hidden="true"></div>
-      <div class="inner">
-        <h1>Enter Mildred’s Birthday</h1>
-        <p>Type the date she was born. This unlocks the birthday page with the full animation.</p>
-
-        <form class="form" id="loginForm" autocomplete="off">
-          <div class="row">
-            <div>
-              <label for="month">Month (MM)</label>
-              <input id="month" name="month" inputmode="numeric" placeholder="e.g. 07" required />
-            </div>
-            <div>
-              <label for="day">Day (DD)</label>
-              <input id="day" name="day" inputmode="numeric" placeholder="e.g. 07" required />
-            </div>
-          </div>
-
-          <div class="actions">
-            <button class="primary" type="submit">Unlock 🎂</button>
-          </div>
-
-          <div class="hint" id="birthdayHint">Tip: born on <b>07/07</b> (July 7).</div>
-        </form>
-      </div>
+<body class="login-page">
+  <main class="gate-shell">
+    <section class="gate-media" aria-label="Birthday memories preview">
+      <img src="5a55dbca-8e6f-4d59-baa0-27f23ec818ea.png" alt="Mildred birthday memory" />
+      <img src="88a93317-14e3-4518-b95b-09d692230013.png" alt="Mildred birthday memory" />
+      <img src="b59828e1-7b9f-4db1-bf59-c0cf12104089.png" alt="Mildred birthday memory" />
     </section>
-  </div>
+
+    <section class="gate-panel">
+      <p class="eyebrow">A little birthday gift</p>
+      <h1>For Mildred</h1>
+      <p class="lead">Enter her birthday to open the surprise made just for her.</p>
+
+      <form id="loginForm" class="unlock-form" autocomplete="off">
+        <div class="date-grid">
+          <label>
+            <span>Month</span>
+            <input id="month" name="month" inputmode="numeric" maxlength="2" placeholder="MM" required />
+          </label>
+          <label>
+            <span>Day</span>
+            <input id="day" name="day" inputmode="numeric" maxlength="2" placeholder="DD" required />
+          </label>
+        </div>
+        <button class="primary-action" type="submit">Unlock surprise</button>
+        <p id="birthdayHint" class="quiet-note">Hint: July 7</p>
+      </form>
+    </section>
+  </main>
 
   <script src="env-config.js"></script>
   <script>
-    // Birthday music: using a public-domain-style inline placeholder note.
-    // Replace `AUDIO_SRC` with a real file if you want a specific song.
-    const AUDIO_SRC = '';
-    const audio = AUDIO_SRC ? new Audio(AUDIO_SRC) : null;
-    if (audio) audio.preload = 'auto';
-
-
-    const stars = document.querySelector('.stars');
-    const prefersReduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    if (!prefersReduced){
-      const count = 18;
-      for(let i=0;i<count;i++){
-        const s = document.createElement('div');
-        s.className = 'star';
-        s.style.left = (Math.random()*95 + 2) + '%';
-        s.style.top = (Math.random()*85 + 5) + '%';
-        s.style.animationDelay = (Math.random()*2.5) + 's';
-        s.style.transformOrigin = 'center';
-        stars.appendChild(s);
-      }
-    }
-
     const form = document.getElementById('loginForm');
     const monthEl = document.getElementById('month');
     const dayEl = document.getElementById('day');
-    const birthdayHint = document.getElementById('birthdayHint');
+    const hint = document.getElementById('birthdayHint');
     const appConfig = window.APP_CONFIG || {};
-    const defaultBirthday = appConfig.BIRTHDAY_DATE || '07/07';
-    const [defaultMonth, defaultDay] = defaultBirthday.split('/').map((value) => value.padStart(2, '0'));
-    const defaultMonthName = new Date(2020, Number(defaultMonth) - 1, Number(defaultDay)).toLocaleDateString(undefined, { month: 'long', day: 'numeric' });
+    const birthday = appConfig.BIRTHDAY_DATE || '07/07';
+    const [defaultMonth, defaultDay] = birthday.split('/').map((value) => value.padStart(2, '0'));
+    const birthdayName = new Date(2020, Number(defaultMonth) - 1, Number(defaultDay)).toLocaleDateString(undefined, {
+      month: 'long',
+      day: 'numeric'
+    });
 
-    birthdayHint.innerHTML = `Tip: born on <b>${defaultBirthday}</b> (${defaultMonthName}).`;
+    hint.textContent = `Hint: ${birthdayName}`;
 
-    function normalize2(n){
-      const x = String(n).trim();
-      if (x.length === 1) return '0' + x;
-      return x;
+    function normalize(value) {
+      return String(value).replace(/\D/g, '').padStart(2, '0').slice(-2);
     }
 
-    form.addEventListener('submit', (e) => {
-      e.preventDefault();
-      const mm = normalize2(monthEl.value);
-      const dd = normalize2(dayEl.value);
+    [monthEl, dayEl].forEach((input) => {
+      input.addEventListener('input', () => {
+        input.value = input.value.replace(/\D/g, '').slice(0, 2);
+      });
+    });
 
-      // Basic validation
-      const m = Number(mm), d = Number(dd);
-      if (!Number.isFinite(m) || !Number.isFinite(d) || m < 1 || m > 12 || d < 1 || d > 31){
-        alert('Enter a valid date.');
+    form.addEventListener('submit', (event) => {
+      event.preventDefault();
+      const mm = normalize(monthEl.value);
+      const dd = normalize(dayEl.value);
+      const month = Number(mm);
+      const day = Number(dd);
+
+      if (!Number.isFinite(month) || !Number.isFinite(day) || month < 1 || month > 12 || day < 1 || day > 31) {
+        hint.textContent = 'Please enter a real date.';
+        hint.classList.add('error');
         return;
       }
 
-      // If you want to enforce correctness, uncomment below.
-      // if (m !== 7 || d !== 7){ alert('That date does not unlock this birthday.'); return; }
-
-      const params = new URLSearchParams({ mm: m, dd: d });
-      window.location.href = `birthday.html?${params.toString()}`;
+      window.location.href = `birthday.html?mm=${month}&dd=${day}`;
     });
   </script>
 </body>
 </html>
-
