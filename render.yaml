@@ -8,6 +8,6 @@ services:
     publishPath: ./birthday
     envVars:
       - key: WHATSAPP_NUMBER
-        value: 44743960764
+        value: 256743960764
       - key: BIRTHDAY_DATE
         value: 07/07

@@ -30,7 +30,7 @@
           <button id="sparkButton" class="primary-action" type="button">Send sparkles</button>
           <button id="loveButton" class="secondary-action" type="button">Send love notes</button>
           <a class="secondary-action" href="slideshow.html">View memories</a>
-          <a id="giftLink" class="secondary-action" href="https://wa.me/44743960764" target="_blank" rel="noopener">Ask for gift</a>
+          <a id="giftLink" class="secondary-action" href="https://wa.me/256743960764" target="_blank" rel="noopener">Ask for gift</a>
         </div>
       </div>
       <figure class="hero-photo">
@@ -105,7 +105,7 @@
     dateTitle.textContent = dateLabel;
 
     const giftLink = document.getElementById('giftLink');
-    giftLink.href = `https://wa.me/${appConfig.WHATSAPP_NUMBER || '44743960764'}?text=${encodeURIComponent("Hi Mildred, I would like to ask for a birthday gift.")}`;
+    giftLink.href = `https://wa.me/${appConfig.WHATSAPP_NUMBER || '256743960764'}?text=${encodeURIComponent("Hi Mildred, I would like to ask for a birthday gift.")}`;
 
     function nextBirthday(now = new Date()) {
       const currentYear = now.getFullYear();
