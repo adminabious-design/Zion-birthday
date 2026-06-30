@@ -194,11 +194,11 @@
       // if (m !== 7 || d !== 7){ alert('That date does not unlock this birthday.'); return; }
 
       const params = new URLSearchParams({ mm: m, dd: d });
-      window.location.href = `index.html?${params.toString()}`;
+      window.location.href = `birthday.html?${params.toString()}`;
     });
 
     skipBtn.addEventListener('click', () => {
-      window.location.href = `index.html?mm=${Number(defaultMonth)}&dd=${Number(defaultDay)}`;
+      window.location.href = `birthday.html?mm=${Number(defaultMonth)}&dd=${Number(defaultDay)}`;
     });
   </script>
 </body>
