@@ -10,6 +10,7 @@
   <main class="gallery-shell">
     <header class="gallery-header">
       <div>
+        <div class="buddy-ribbon">Soft pink memories</div>
         <p class="eyebrow">Birthday memories</p>
         <h1>Beautiful moments.</h1>
       </div>
@@ -27,6 +28,8 @@
       <div class="counter"><span id="current">1</span> / <span id="total">4</span></div>
       <button class="icon-action" id="nextBtn" type="button" aria-label="Next image">&rsaquo;</button>
       <button class="secondary-action" id="playBtn" type="button">Pause</button>
+      <button class="secondary-action" id="musicBtn" type="button">Play song</button>
+      <button class="secondary-action" id="blushBtn" type="button">Blush mode</button>
     </nav>
   </main>
 
@@ -48,11 +51,29 @@
     const currentEl = document.getElementById('current');
     const totalEl = document.getElementById('total');
     const playBtn = document.getElementById('playBtn');
+    const musicBtn = document.getElementById('musicBtn');
+    const blushBtn = document.getElementById('blushBtn');
     const modal = document.getElementById('imageModal');
     const modalImage = document.getElementById('modalImage');
     let current = 0;
     let playing = true;
     let timer = null;
+    let audioContext = null;
+    let musicTimer = null;
+    let musicPlaying = false;
+    let musicStep = 0;
+    const melody = [
+      392.0, 392.0, 440.0, 392.0, 523.25, 493.88,
+      392.0, 392.0, 440.0, 392.0, 587.33, 523.25,
+      392.0, 392.0, 783.99, 659.25, 523.25, 493.88, 440.0,
+      698.46, 698.46, 659.25, 523.25, 587.33, 523.25
+    ];
+    const rhythm = [
+      0.32, 0.22, 0.52, 0.52, 0.52, 0.9,
+      0.32, 0.22, 0.52, 0.52, 0.52, 0.9,
+      0.32, 0.22, 0.52, 0.52, 0.52, 0.52, 1,
+      0.32, 0.22, 0.52, 0.52, 0.52, 1.1
+    ];
 
     images.forEach((src, index) => {
       const slide = document.createElement('button');
@@ -121,6 +142,66 @@
       playing = !playing;
       playBtn.textContent = playing ? 'Pause' : 'Play';
       restart();
+    });
+
+    function ensureAudio() {
+      if (!audioContext) {
+        const AudioCtx = window.AudioContext || window.webkitAudioContext;
+        audioContext = AudioCtx ? new AudioCtx() : null;
+      }
+      if (audioContext && audioContext.state === 'suspended') {
+        audioContext.resume();
+      }
+      return audioContext;
+    }
+
+    function playNote(frequency, duration) {
+      const context = ensureAudio();
+      if (!context) return;
+
+      const start = context.currentTime;
+      const oscillator = context.createOscillator();
+      const gain = context.createGain();
+      oscillator.type = 'triangle';
+      oscillator.frequency.setValueAtTime(frequency, start);
+      gain.gain.setValueAtTime(0.0001, start);
+      gain.gain.exponentialRampToValueAtTime(0.045, start + 0.025);
+      gain.gain.exponentialRampToValueAtTime(0.0001, start + duration);
+      oscillator.connect(gain).connect(context.destination);
+      oscillator.start(start);
+      oscillator.stop(start + duration + 0.04);
+    }
+
+    function scheduleNextNote() {
+      if (!musicPlaying) return;
+      const duration = rhythm[musicStep % rhythm.length];
+      playNote(melody[musicStep % melody.length], duration);
+      musicStep += 1;
+      musicTimer = setTimeout(scheduleNextNote, duration * 1000 + 80);
+    }
+
+    function startMusic() {
+      if (musicPlaying) return;
+      musicPlaying = true;
+      musicBtn.textContent = 'Stop song';
+      ensureAudio();
+      scheduleNextNote();
+    }
+
+    function stopMusic() {
+      musicPlaying = false;
+      musicBtn.textContent = 'Play song';
+      clearTimeout(musicTimer);
+    }
+
+    musicBtn.addEventListener('click', () => {
+      if (musicPlaying) stopMusic();
+      else startMusic();
+    });
+
+    blushBtn.addEventListener('click', () => {
+      document.body.classList.toggle('blush-mode');
+      blushBtn.textContent = document.body.classList.contains('blush-mode') ? 'Soft mode' : 'Blush mode';
     });
 
     document.addEventListener('keydown', (event) => {

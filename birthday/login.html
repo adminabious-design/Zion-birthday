@@ -7,6 +7,17 @@
   <link rel="stylesheet" href="gift.css" />
 </head>
 <body class="login-page">
+  <div class="opening-note" id="openingNote" role="dialog" aria-modal="true" aria-labelledby="openingTitle">
+    <div class="opening-card">
+      <p class="eyebrow">Before you open it</p>
+      <h2 id="openingTitle">This message appears only once.</h2>
+      <p>
+        After you open the birthday gift, this little warning will close and will not show again on this browser.
+      </p>
+      <button class="primary-action" id="openNoteButton" type="button">Open the gift</button>
+    </div>
+  </div>
+
   <main class="gate-shell">
     <section class="gate-media" aria-label="Birthday memories preview">
       <img src="5a55dbca-8e6f-4d59-baa0-27f23ec818ea.png" alt="Mildred birthday memory" />
@@ -15,6 +26,7 @@
     </section>
 
     <section class="gate-panel">
+      <div class="buddy-ribbon">Pink little surprise</div>
       <p class="eyebrow">A little birthday gift</p>
       <h1>For Mildred</h1>
       <p class="lead">Enter her birthday to open the surprise made just for her.</p>
@@ -33,11 +45,30 @@
         <button class="primary-action" type="submit">Unlock surprise</button>
         <p id="birthdayHint" class="quiet-note">Hint: July 7</p>
       </form>
+      <div class="mini-hearts" aria-hidden="true">
+        <span></span><span></span><span></span><span></span><span></span>
+      </div>
     </section>
   </main>
 
   <script src="env-config.js"></script>
   <script>
+    const openingNote = document.getElementById('openingNote');
+    const openNoteButton = document.getElementById('openNoteButton');
+    const noteKey = 'mildredBirthdayOpeningNoteSeen';
+
+    if (localStorage.getItem(noteKey) === 'yes') {
+      openingNote.hidden = true;
+    }
+
+    openNoteButton.addEventListener('click', () => {
+      localStorage.setItem(noteKey, 'yes');
+      openingNote.classList.add('closing');
+      setTimeout(() => {
+        openingNote.hidden = true;
+      }, 260);
+    });
+
     const form = document.getElementById('loginForm');
     const monthEl = document.getElementById('month');
     const dayEl = document.getElementById('day');

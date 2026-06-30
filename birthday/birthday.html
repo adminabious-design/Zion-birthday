@@ -12,14 +12,23 @@
   <main>
     <section class="gift-hero">
       <div class="hero-copy">
+        <div class="buddy-ribbon">Birthday buddy edition</div>
         <p class="eyebrow">Today is about you</p>
         <h1>Happy Birthday, Mildred.</h1>
         <p class="lead">
           A small corner of the internet made to celebrate your smile, your heart,
           and the joy you bring into the lives around you.
         </p>
+        <div class="heart-keepsake" aria-label="Beating heart animation">
+          <div class="beat-heart" aria-hidden="true"></div>
+          <div>
+            <strong>Made with a full heart</strong>
+            <span>and a few sparkles saved just for you.</span>
+          </div>
+        </div>
         <div class="hero-actions">
           <button id="sparkButton" class="primary-action" type="button">Send sparkles</button>
+          <button id="loveButton" class="secondary-action" type="button">Send love notes</button>
           <a class="secondary-action" href="slideshow.html">View memories</a>
           <a id="giftLink" class="secondary-action" href="https://wa.me/44743960764" target="_blank" rel="noopener">Ask for gift</a>
         </div>
@@ -44,6 +53,10 @@
             Thank you for being wonderfully you. May today give back even a little
             of the light you give so freely.
           </p>
+          <div class="compliment-box" id="complimentBox">
+            <span>Today's soft reminder</span>
+            <strong>You are loved more than you probably know.</strong>
+          </div>
           <div class="signature">With love</div>
         </article>
 
@@ -134,6 +147,14 @@
     const ctx = canvas.getContext('2d');
     let particles = [];
     let animationFrame = null;
+    const compliments = [
+      'You are loved more than you probably know.',
+      'Your smile makes ordinary days feel lighter.',
+      'You deserve softness, joy, and beautiful surprises.',
+      'You are a rare kind of lovely.',
+      'The world is sweeter with you in it.'
+    ];
+    let complimentIndex = 0;
 
     function resizeCanvas() {
       const dpr = Math.max(1, window.devicePixelRatio || 1);
@@ -193,6 +214,17 @@
 
     window.addEventListener('resize', resizeCanvas);
     document.getElementById('sparkButton').addEventListener('click', () => burst());
+    document.getElementById('loveButton').addEventListener('click', () => {
+      const box = document.getElementById('complimentBox');
+      complimentIndex = (complimentIndex + 1) % compliments.length;
+      box.querySelector('strong').textContent = compliments[complimentIndex];
+      box.animate([
+        { transform: 'scale(1)', opacity: 1 },
+        { transform: 'scale(1.03)', opacity: 0.86 },
+        { transform: 'scale(1)', opacity: 1 }
+      ], { duration: 360, easing: 'ease-out' });
+      burst(70);
+    });
     setTimeout(() => burst(90), 450);
   </script>
 </body>
