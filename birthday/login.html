@@ -127,7 +127,6 @@
 
           <div class="actions">
             <button class="primary" type="submit">Unlock 🎂</button>
-            <button class="ghost" type="button" id="skip">Skip (Demo)</button>
           </div>
 
           <div class="hint" id="birthdayHint">Tip: born on <b>07/07</b> (July 7).</div>
@@ -163,7 +162,6 @@
     const form = document.getElementById('loginForm');
     const monthEl = document.getElementById('month');
     const dayEl = document.getElementById('day');
-    const skipBtn = document.getElementById('skip');
     const birthdayHint = document.getElementById('birthdayHint');
     const appConfig = window.APP_CONFIG || {};
     const defaultBirthday = appConfig.BIRTHDAY_DATE || '07/07';
@@ -195,10 +193,6 @@
 
       const params = new URLSearchParams({ mm: m, dd: d });
       window.location.href = `birthday.html?${params.toString()}`;
-    });
-
-    skipBtn.addEventListener('click', () => {
-      window.location.href = `birthday.html?mm=${Number(defaultMonth)}&dd=${Number(defaultDay)}`;
     });
   </script>
 </body>
