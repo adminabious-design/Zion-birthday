@@ -269,6 +269,12 @@
       else startMusic();
     });
 
+    window.addEventListener('load', () => {
+      setTimeout(() => {
+        if (!musicPlaying) startMusic();
+      }, 450);
+    });
+
     blushBtn.addEventListener('click', () => {
       document.body.classList.toggle('blush-mode');
       blushBtn.textContent = document.body.classList.contains('blush-mode') ? 'Soft mode' : 'Blush mode';

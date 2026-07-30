@@ -702,6 +702,27 @@ a {
   color: #fffdfb;
 }
 
+.birthday-page::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(circle at 14% 12%, rgba(255, 255, 255, 0.68) 0 2px, transparent 3px),
+    radial-gradient(circle at 78% 18%, rgba(255, 215, 229, 0.78) 0 2px, transparent 3px),
+    radial-gradient(circle at 35% 82%, rgba(255, 255, 255, 0.72) 0 1.8px, transparent 2.8px),
+    radial-gradient(circle at 88% 80%, rgba(255, 248, 239, 0.74) 0 1.6px, transparent 2.6px);
+  background-size: 220px 220px, 260px 260px, 240px 240px, 300px 300px;
+  animation: sparkleFloat 8s linear infinite;
+  opacity: 0.7;
+}
+
+@keyframes sparkleFloat {
+  0% { transform: translate3d(0, 0, 0); }
+  50% { transform: translate3d(8px, -10px, 0); }
+  100% { transform: translate3d(0, 0, 0); }
+}
+
 .birthday-page.surprise-mode .hero-copy .lead,
 .birthday-page.surprise-mode .hero-copy .heart-keepsake span,
 .birthday-page.surprise-mode .countdown-panel .quiet-note,

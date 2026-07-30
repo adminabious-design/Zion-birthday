@@ -124,7 +124,7 @@
     const surpriseKey = 'mildred-birthday-surprise';
     let surpriseTriggered = localStorage.getItem(surpriseKey) === 'true';
     let speechReady = false;
-    giftLink.href = `https://wa.me/${appConfig.WHATSAPP_NUMBER || '256743960764'}?text=${encodeURIComponent("Hi Mildred, I would like to ask for a birthday gift.")}`;
+    giftLink.href = `https://wa.me/${appConfig.WHATSAPP_NUMBER || '+256743960764'}?text=${encodeURIComponent("Hi Mildred, I would like to ask for a birthday gift.")}`;
 
     function isBirthdayToday(now = new Date()) {
       return now.getMonth() + 1 === birthMonth && now.getDate() === birthDay;
@@ -147,17 +147,18 @@
     }
 
     function playBlessing() {
-      if (!window.speechSynthesis) return;
-      if (!speechReady) {
-        const intro = new SpeechSynthesisUtterance('Blessed birthday, Mildred. May your heart feel wrapped in peace, joy, and beautiful surprises today and always.');
-        intro.lang = 'en-US';
-        intro.rate = 0.95;
-        intro.pitch = 1.06;
-        intro.volume = 0.9;
-        window.speechSynthesis.cancel();
-        window.speechSynthesis.speak(intro);
+      if (!window.speechSynthesis || speechReady) return;
+      const intro = new SpeechSynthesisUtterance('Blessed birthday, Mildred. May your heart feel wrapped in peace, joy, and gentle surprises today and always.');
+      intro.lang = 'en-US';
+      intro.rate = 0.82;
+      intro.pitch = 0.95;
+      intro.volume = 0.78;
+      intro.onend = () => {
         speechReady = true;
-      }
+      };
+      window.speechSynthesis.cancel();
+      window.speechSynthesis.speak(intro);
+      speechReady = true;
     }
 
     function revealSurprise() {
@@ -233,18 +234,18 @@
       resizeCanvas();
       const centerX = window.innerWidth * 0.5;
       const centerY = window.innerHeight * 0.38;
-      const colors = ['#a93253', '#e86b57', '#e4b64a', '#4aa88a', '#fff8ef'];
+      const colors = ['#fff8ef', '#ffd7e5', '#e4b64a', '#f38ab2', '#a93253', '#ffffff'];
 
       particles = Array.from({ length: amount }, () => {
         const angle = Math.random() * Math.PI * 2;
-        const speed = 3 + Math.random() * 8;
+        const speed = 3 + Math.random() * 9;
         return {
-          x: centerX + (Math.random() - 0.5) * 80,
-          y: centerY + (Math.random() - 0.5) * 40,
+          x: centerX + (Math.random() - 0.5) * 90,
+          y: centerY + (Math.random() - 0.5) * 50,
           vx: Math.cos(angle) * speed,
           vy: Math.sin(angle) * speed - 3,
-          size: 3 + Math.random() * 5,
-          life: 70 + Math.random() * 45,
+          size: 2 + Math.random() * 6,
+          life: 80 + Math.random() * 55,
           color: colors[Math.floor(Math.random() * colors.length)],
           spin: Math.random() * Math.PI
         };
@@ -263,11 +264,22 @@
         p.spin += 0.16;
         p.life -= 1;
         ctx.save();
+        ctx.globalCompositeOperation = 'screen';
         ctx.globalAlpha = Math.max(0, p.life / 80);
         ctx.translate(p.x, p.y);
         ctx.rotate(p.spin);
         ctx.fillStyle = p.color;
-        ctx.fillRect(-p.size / 2, -p.size / 2, p.size, p.size * 1.7);
+        ctx.beginPath();
+        ctx.arc(0, 0, p.size, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.strokeStyle = p.color;
+        ctx.lineWidth = 1.1;
+        ctx.beginPath();
+        ctx.moveTo(-p.size * 1.8, 0);
+        ctx.lineTo(p.size * 1.8, 0);
+        ctx.moveTo(0, -p.size * 1.8);
+        ctx.lineTo(0, p.size * 1.8);
+        ctx.stroke();
         ctx.restore();
       });
       particles = particles.filter((p) => p.life > 0 && p.y < window.innerHeight + 40);
