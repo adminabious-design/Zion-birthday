@@ -9,6 +9,15 @@
 <body class="birthday-page">
   <canvas id="sparkCanvas" class="spark-canvas" aria-hidden="true"></canvas>
 
+  <div class="surprise-overlay" id="birthdaySurprise" hidden>
+    <div class="surprise-card">
+      <p class="eyebrow">A birthday blessing</p>
+      <h2>Happy birthday, Mildred.</h2>
+      <p>May your heart feel wrapped in peace, joy, and beautiful surprises today and always.</p>
+      <button class="primary-action" id="surprisePlayBtn" type="button">Play blessing</button>
+    </div>
+  </div>
+
   <main>
     <section class="gift-hero">
       <div class="hero-copy">
@@ -83,6 +92,10 @@
           <a class="memory-card" href="slideshow.html"><img src="88a93317-14e3-4518-b95b-09d692230013.png" alt="Birthday memory two" /></a>
           <a class="memory-card" href="slideshow.html"><img src="b59828e1-7b9f-4db1-bf59-c0cf12104089.png" alt="Birthday memory three" /></a>
           <a class="memory-card" href="slideshow.html"><img src="d8fa3106-8bd7-4e36-a8b4-a4d5d3a684eb.png" alt="Birthday memory four" /></a>
+          <a class="memory-card" href="slideshow.html"><img src="photo2.png" alt="Birthday memory five" /></a>
+          <a class="memory-card" href="slideshow.html"><img src="photo3.png" alt="Birthday memory six" /></a>
+          <a class="memory-card" href="slideshow.html"><img src="photo4.png" alt="Birthday memory seven" /></a>
+          <a class="memory-card" href="slideshow.html"><img src="d8fa3106-8bd7-4e36-a8b4-a4d5d3a684eb.png" alt="Birthday memory eight" /></a>
         </div>
       </div>
     </section>
@@ -105,7 +118,17 @@
     dateTitle.textContent = dateLabel;
 
     const giftLink = document.getElementById('giftLink');
+    const body = document.body;
+    const surpriseOverlay = document.getElementById('birthdaySurprise');
+    const surprisePlayBtn = document.getElementById('surprisePlayBtn');
+    const surpriseKey = 'mildred-birthday-surprise';
+    let surpriseTriggered = localStorage.getItem(surpriseKey) === 'true';
+    let speechReady = false;
     giftLink.href = `https://wa.me/${appConfig.WHATSAPP_NUMBER || '256743960764'}?text=${encodeURIComponent("Hi Mildred, I would like to ask for a birthday gift.")}`;
+
+    function isBirthdayToday(now = new Date()) {
+      return now.getMonth() + 1 === birthMonth && now.getDate() === birthDay;
+    }
 
     function nextBirthday(now = new Date()) {
       const currentYear = now.getFullYear();
@@ -123,8 +146,48 @@
       return String(value).padStart(2, '0');
     }
 
+    function playBlessing() {
+      if (!window.speechSynthesis) return;
+      if (!speechReady) {
+        const intro = new SpeechSynthesisUtterance('Blessed birthday, Mildred. May your heart feel wrapped in peace, joy, and beautiful surprises today and always.');
+        intro.lang = 'en-US';
+        intro.rate = 0.95;
+        intro.pitch = 1.06;
+        intro.volume = 0.9;
+        window.speechSynthesis.cancel();
+        window.speechSynthesis.speak(intro);
+        speechReady = true;
+      }
+    }
+
+    function revealSurprise() {
+      if (surpriseTriggered) return;
+      surpriseTriggered = true;
+      localStorage.setItem(surpriseKey, 'true');
+      body.classList.add('surprise-mode');
+      if (surpriseOverlay) {
+        surpriseOverlay.hidden = false;
+        requestAnimationFrame(() => surpriseOverlay.classList.add('show'));
+      }
+      burst(240);
+      playBlessing();
+      const heroTitle = document.querySelector('.hero-copy h1');
+      if (heroTitle) heroTitle.textContent = 'Happy Birthday, Mildred';
+    }
+
     function updateCountdown() {
       const now = new Date();
+      const birthdayNow = isBirthdayToday(now);
+
+      if (birthdayNow || surpriseTriggered) {
+        revealSurprise();
+        daysEl.textContent = '00';
+        hoursEl.textContent = '00';
+        minutesEl.textContent = '00';
+        secondsEl.textContent = '00';
+        return;
+      }
+
       let diff = target - now;
 
       if (diff <= 0) {
@@ -212,6 +275,16 @@
       else ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
     }
 
+    document.addEventListener('pointerdown', () => {
+      if (!speechReady) {
+        playBlessing();
+      }
+    }, { once: true });
+
+    if (surpriseTriggered) {
+      revealSurprise();
+    }
+
     window.addEventListener('resize', resizeCanvas);
     document.getElementById('sparkButton').addEventListener('click', () => burst());
     document.getElementById('loveButton').addEventListener('click', () => {
@@ -225,6 +298,7 @@
       ], { duration: 360, easing: 'ease-out' });
       burst(70);
     });
+    surprisePlayBtn.addEventListener('click', () => playBlessing());
     setTimeout(() => burst(90), 450);
   </script>
 </body>
