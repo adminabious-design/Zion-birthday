@@ -20,6 +20,19 @@
       </div>
     </header>
 
+    <section class="memory-showcase" aria-label="Featured birthday memories">
+      <div class="showcase-card">
+        <div class="showcase-media" id="showcaseMedia"></div>
+        <div class="showcase-footer">
+          <div class="preview-strip" id="previewStrip"></div>
+          <div class="showcase-meta">
+            <p class="eyebrow">Memory reel</p>
+            <p class="quiet-note" id="showcaseCounter">1 / 4</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <section class="slideshow-frame" id="slideshow" aria-label="Birthday photo slideshow"></section>
 
     <nav class="gallery-controls" aria-label="Gallery controls">
@@ -40,16 +53,35 @@
 
   <script>
     const images = [
-      '5a55dbca-8e6f-4d59-baa0-27f23ec818ea.png',
-      '88a93317-14e3-4518-b95b-09d692230013.png',
-      'b59828e1-7b9f-4db1-bf59-c0cf12104089.png',
-      'd8fa3106-8bd7-4e36-a8b4-a4d5d3a684eb.png'
+      {
+        src: '5a55dbca-8e6f-4d59-baa0-27f23ec818ea.png',
+        title: 'Soft pink laughter',
+        text: 'A little burst of joy from the sweetest birthday glow.'
+      },
+      {
+        src: '88a93317-14e3-4518-b95b-09d692230013.png',
+        title: 'Golden glow moments',
+        text: 'Warm lights and even warmer smiles in the middle of the celebration.'
+      },
+      {
+        src: 'b59828e1-7b9f-4db1-bf59-c0cf12104089.png',
+        title: 'Quiet little sparkles',
+        text: 'The kind of memory that feels gentle, bright, and almost cinematic.'
+      },
+      {
+        src: 'd8fa3106-8bd7-4e36-a8b4-a4d5d3a684eb.png',
+        title: 'The heart of the day',
+        text: 'The favorite frame, wrapped in softness and celebration.'
+      }
     ];
 
     const slideshow = document.getElementById('slideshow');
     const dots = document.getElementById('dots');
     const currentEl = document.getElementById('current');
     const totalEl = document.getElementById('total');
+    const showcaseMedia = document.getElementById('showcaseMedia');
+    const showcaseCounter = document.getElementById('showcaseCounter');
+    const previewStrip = document.getElementById('previewStrip');
     const playBtn = document.getElementById('playBtn');
     const musicBtn = document.getElementById('musicBtn');
     const blushBtn = document.getElementById('blushBtn');
@@ -75,13 +107,13 @@
       0.32, 0.22, 0.52, 0.52, 0.52, 1.1
     ];
 
-    images.forEach((src, index) => {
+    images.forEach((memory, index) => {
       const slide = document.createElement('button');
       slide.className = `slide${index === 0 ? ' active' : ''}`;
       slide.type = 'button';
       slide.setAttribute('aria-label', `Open memory ${index + 1}`);
-      slide.innerHTML = `<img src="${src}" alt="Birthday memory ${index + 1}" />`;
-      slide.addEventListener('click', () => openModal(src));
+      slide.innerHTML = `<img src="${memory.src}" alt="Birthday memory ${index + 1}" />`;
+      slide.addEventListener('click', () => openModal(memory.src));
       slideshow.appendChild(slide);
 
       const dot = document.createElement('button');
@@ -90,19 +122,37 @@
       dot.setAttribute('aria-label', `Show memory ${index + 1}`);
       dot.addEventListener('click', () => goTo(index));
       dots.appendChild(dot);
+
+      const preview = document.createElement('button');
+      preview.className = `preview-thumb${index === 0 ? ' active' : ''}`;
+      preview.type = 'button';
+      preview.setAttribute('aria-label', `Show ${memory.title}`);
+      preview.innerHTML = `<img src="${memory.src}" alt="${memory.title}" />`;
+      preview.addEventListener('click', () => goTo(index));
+      previewStrip.appendChild(preview);
     });
 
     totalEl.textContent = images.length;
+
+    function renderFeatured() {
+      const memory = images[current];
+      showcaseMedia.innerHTML = `<div class="showcase-overlay"><span class="showcase-tag">Featured memory</span><h2>${memory.title}</h2><p>${memory.text}</p></div><img src="${memory.src}" alt="${memory.title}" />`;
+      showcaseCounter.textContent = `${current + 1} / ${images.length}`;
+      document.querySelectorAll('.dot').forEach((dot, dotIndex) => {
+        dot.classList.toggle('active', dotIndex === current);
+      });
+      document.querySelectorAll('.preview-thumb').forEach((thumb, thumbIndex) => {
+        thumb.classList.toggle('active', thumbIndex === current);
+      });
+      currentEl.textContent = current + 1;
+    }
 
     function goTo(index) {
       current = (index + images.length) % images.length;
       document.querySelectorAll('.slide').forEach((slide, slideIndex) => {
         slide.classList.toggle('active', slideIndex === current);
       });
-      document.querySelectorAll('.dot').forEach((dot, dotIndex) => {
-        dot.classList.toggle('active', dotIndex === current);
-      });
-      currentEl.textContent = current + 1;
+      renderFeatured();
       restart();
     }
 
