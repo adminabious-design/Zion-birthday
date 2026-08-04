@@ -10,4 +10,4 @@ services:
       - key: WHATSAPP_NUMBER
         value: 256743960764
       - key: BIRTHDAY_DATE
-        value: 07/07
+        value: 08/07

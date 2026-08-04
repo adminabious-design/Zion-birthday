@@ -16,7 +16,7 @@ The site is configured for Render static deployment using `render.yaml`.
 The Render service is configured with the following example environment variables:
 
 - `WHATSAPP_NUMBER` — the WhatsApp phone number to use for the gift button.
-- `BIRTHDAY_DATE` — the default birthday date shown in the site, e.g. `07/07`.
+- `BIRTHDAY_DATE` — the default birthday date shown in the site, e.g. `08/07`.
 
 If you want to deploy locally, copy `.env.example` to `.env` and update values.
 
@@ -60,8 +60,8 @@ node ./build-config.js
 
 6. Add the same environment variables on Render if you want to customize them:
 
-- `WHATSAPP_NUMBER = 44743960764`
-- `BIRTHDAY_DATE = 07/07`
+-- `WHATSAPP_NUMBER = +256 743 960764`
+- `BIRTHDAY_DATE = 08/07`
 
 7. Deploy.
 

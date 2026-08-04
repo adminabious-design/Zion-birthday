@@ -124,7 +124,7 @@
     const surpriseKey = 'mildred-birthday-surprise';
     let surpriseTriggered = localStorage.getItem(surpriseKey) === 'true';
     let speechReady = false;
-    giftLink.href = `https://wa.me/${appConfig.WHATSAPP_NUMBER || '+256743960764'}?text=${encodeURIComponent("Hi Mildred, I would like to ask for a birthday gift.")}`;
+    giftLink.href = `https://wa.me/${appConfig.WHATSAPP_NUMBER || '256743960764'}?text=${encodeURIComponent("Hi Mildred, I would like to ask for a birthday gift.")}`;
 
     function isBirthdayToday(now = new Date()) {
       return now.getMonth() + 1 === birthMonth && now.getDate() === birthDay;
