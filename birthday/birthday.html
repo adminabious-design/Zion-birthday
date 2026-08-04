@@ -126,6 +126,23 @@
     let speechReady = false;
     giftLink.href = `https://wa.me/${appConfig.WHATSAPP_NUMBER || '256743960764'}?text=${encodeURIComponent("Hi Mildred, I would like to ask for a birthday gift.")}`;
 
+    function formatDisplayNumber(raw) {
+      if (!raw) return '';
+      const digits = String(raw).replace(/\D/g, '');
+      // Expect country code +256 and 9 digits (total 12 with country)
+      if (digits.length === 12 && digits.startsWith('256')) {
+        return `+256 ${digits.slice(3, 6)} ${digits.slice(6)}`;
+      }
+      // Fallback: return original
+      return raw;
+    }
+
+    // Show formatted phone next to the action for clarity
+    const displayNumber = formatDisplayNumber(appConfig.WHATSAPP_NUMBER || '256743960764');
+    if (displayNumber) {
+      giftLink.textContent = `Ask for gift (${displayNumber})`;
+    }
+
     function isBirthdayToday(now = new Date()) {
       return now.getMonth() + 1 === birthMonth && now.getDate() === birthDay;
     }
